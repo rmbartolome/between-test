@@ -1,0 +1,123 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.13.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'jacoco'
+    // Sonar
+    id "org.sonarqube" version "2.8"
+    // OWASP Dependency check
+    id "org.owasp.dependencycheck" version "6.4.1.1"
+}
+
+group = 'com.between'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "Hoxton.RELEASE")
+}
+
+dependencies {
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //implementation 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
+    //implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //runtimeOnly 'org.postgresql:postgresql'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    //implementation 'org.springframework.kafka:spring-kafka'
+
+    //dependency check
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.27'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.14.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.14.1'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.54'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-websocket:9.0.45'
+    implementation 'org.springframework.security:spring-security-crypto:5.4.6'
+    implementation group: 'org.springframework.security', name: 'spring-security-rsa', version: '1.0.10.RELEASE'
+    implementation 'com.google.guava:guava:30.0-jre'
+    implementation 'org.springframework:spring-core:5.2.18.RELEASE'
+
+    // Lombok
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.5.10'
+
+    // ArchUnit
+    testCompile 'com.tngtech.archunit:archunit:0.21.0'
+    testCompile 'com.tngtech.archunit:archunit-junit5:0.21.0'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootRun {
+    jvmArgs = ["-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=local", "-Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true"]
+}
+
+// Sonar settings
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'between-test'
+        property 'sonar.host.url', 'http://localhost:9000/sonarqube'
+        property 'sonar.projectName', 'between-test' // Nombre del repo
+        property 'sonar.scm.disabled', 'true'
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.dependencyCheck.xmlReportPath", "${buildDir}/reports/dependency-check-report.xml"
+        property "sonar.dependencyCheck.htmlReportPath", "${buildDir}/reports/dependency-check-report.html"
+        property "sonar.dependencyCheck.jsonReportPath", "${buildDir}/reports/dependency-check-report.json"
+        properties["sonar.sources"] += "build.gradle"
+
+        // Para Pull Request
+        if (project.hasProperty("pullRequestID")) {
+            // sonar-stash
+            property "sonar.analysis.mode", "issues"
+            property "sonar.stash.notification", "true"
+            property "sonar.stash.project", "between-test"
+            property "sonar.stash.repository", "between-test"
+            property "sonar.stash.pullrequest.id", "${pullRequestID}"
+            property "sonar.stash.password", "jenkins123456"
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
