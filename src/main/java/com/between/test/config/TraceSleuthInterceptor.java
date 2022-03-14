@@ -46,4 +46,3 @@ public class TraceSleuthInterceptor extends HandlerInterceptorAdapter {
         return Boolean.TRUE;
     }
 }
-

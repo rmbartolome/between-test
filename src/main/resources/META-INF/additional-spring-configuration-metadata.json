@@ -1,9 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "security.jwt.key-store-password",
-      "type": "java.lang.String",
-      "description": "Description for security.jwt.key-store-password."
-    }
-  ]
-}

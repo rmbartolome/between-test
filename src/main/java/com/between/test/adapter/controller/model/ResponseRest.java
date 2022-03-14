@@ -2,11 +2,11 @@ package com.between.test.adapter.controller.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.util.Map;
 
-@Data
+@Value
 @Builder
 @AllArgsConstructor
 public class ResponseRest<T> {

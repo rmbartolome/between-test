@@ -2,8 +2,8 @@ package com.between.test.config;
 
 import brave.Tracer;
 import com.between.test.adapter.controller.exception.NotFoundRestClientException;
-import com.between.test.adapter.jdbc.exception.JDBCGenericException;
-import com.between.test.adapter.jdbc.exception.TimeoutJDBCException;
+import com.between.test.application.exception.JDBCGenericException;
+import com.between.test.application.exception.TimeoutJDBCException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -71,7 +71,7 @@ public class ErrorHandler {
 
     @ExceptionHandler({JDBCGenericException.class, JDBCGenericException.class})
     public ResponseEntity<ApiErrorResponse> handle(JDBCGenericException ex) {
-        log.error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), ex);
+        log.error(HttpStatus.BAD_REQUEST.getReasonPhrase(), ex);
         return buildResponseError(HttpStatus.INTERNAL_SERVER_ERROR, ex, ex.getCode());
     }
 

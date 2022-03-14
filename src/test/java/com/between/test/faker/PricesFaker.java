@@ -9,24 +9,11 @@ import java.util.HashMap;
 
 public class PricesFaker {
 
-    /*
-     Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-
--        Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-
--        Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
-
--        Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
-
--        Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
-
-
-     */
     public static ValidRate fakeValidRate1(){
         return ValidRate.builder()
                 .productId(35455)
                 .brandId(1)
-                .dateApplication("2020-06-14 10:00:00.000")
+                .dateApplication("2020-06-14T10:00")
                 .build();
     }
 
@@ -34,7 +21,7 @@ public class PricesFaker {
         return ValidRate.builder()
                 .productId(35455)
                 .brandId(1)
-                .dateApplication("2020-06-14 16:00:00.000")
+                .dateApplication("2020-06-14T16:00")
                 .build();
     }
 
@@ -42,7 +29,7 @@ public class PricesFaker {
         return ValidRate.builder()
                 .productId(35455)
                 .brandId(1)
-                .dateApplication("2020-06-21 00:00:00.000")
+                .dateApplication("2020-06-14T21:00")
                 .build();
     }
 
@@ -50,7 +37,7 @@ public class PricesFaker {
         return ValidRate.builder()
                 .productId(35455)
                 .brandId(1)
-                .dateApplication("2020-06-15 10:00:00.000")
+                .dateApplication("2020-06-15T10:00")
                 .build();
     }
 
@@ -58,7 +45,15 @@ public class PricesFaker {
         return ValidRate.builder()
                 .productId(35455)
                 .brandId(1)
-                .dateApplication("2020-06-16 21:00:00.000")
+                .dateApplication("2020-06-16T21:00")
+                .build();
+    }
+
+    public static ValidRate fakeValidRate6(){
+        return ValidRate.builder()
+                .productId(35455)
+                .brandId(2)
+                .dateApplication("2020-06-16T21:00")
                 .build();
     }
 

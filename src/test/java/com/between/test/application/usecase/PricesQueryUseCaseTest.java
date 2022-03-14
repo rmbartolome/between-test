@@ -23,7 +23,7 @@ class PricesQueryUseCaseTest {
 
     @DisplayName("Execute test when ok should return data")
     @Test
-    void executeWhenOk_shouldReturnOkData() throws Exception {
+    void executeWhenOk_shouldReturnOkData() {
         var request = PricesFaker.fakeValidRate1();
 
         Mockito.when(pricesRepository.getValidRate(request)).thenReturn(PricesFaker.fakePriceResponse());

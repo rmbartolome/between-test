@@ -7,7 +7,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -30,12 +38,19 @@ public class Price implements Serializable {
     @JsonIgnore
     private Brand brand;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime start_date;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime end_date;
-    private int product_id;
+    @Column(name = "start_date", columnDefinition = "TIMESTAMP")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date", columnDefinition = "TIMESTAMP")
+    private LocalDateTime endDate;
+
+    @Column(name = "product_id")
+    private int productId;
+
     private int priority;
-    private double price;
+
+    @Column(name = "price_rate")
+    private double priceRate;
+
     private String curr;
 }

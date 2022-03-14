@@ -1,4 +1,4 @@
-package com.between.test.adapter.jdbc.exception;
+package com.between.test.application.exception;
 
 import com.between.test.config.ErrorCode;
 import com.between.test.config.exception.GenericException;

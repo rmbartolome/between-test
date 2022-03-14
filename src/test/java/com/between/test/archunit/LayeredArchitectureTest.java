@@ -26,5 +26,4 @@ public class LayeredArchitectureTest {
             .whereLayer(APPLICATION).mayOnlyBeAccessedByLayers(ADAPTERS, CONFIG)
             .whereLayer(ADAPTERS).mayOnlyBeAccessedByLayers(CONFIG)
             .whereLayer(DOMAIN).mayOnlyBeAccessedByLayers(APPLICATION, ADAPTERS, CONFIG);
-
 }

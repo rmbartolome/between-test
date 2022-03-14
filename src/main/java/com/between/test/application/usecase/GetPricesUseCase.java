@@ -19,7 +19,7 @@ public class GetPricesUseCase implements PricesQuery {
 
     @Override
     public PriceQueryByDate execute(ValidRate validRate)  {
-        log.info("Comienza ejecución caso de uso para consultar tarifa");
+        log.info("Comienza ejecución caso de uso para consultar tarifa por fecha, producto y cadena");
         return pricesRepository.getValidRate(validRate);
     }
 }

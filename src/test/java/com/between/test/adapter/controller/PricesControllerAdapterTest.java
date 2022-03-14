@@ -49,35 +49,10 @@ class PricesControllerAdapterTest {
     public MockMvc mvc;
 
     @Test
-    @DisplayName("Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)")
-    void whenTest1Request_ThenReturnOk() throws Exception {
-
-        var request = ValidRateRequest.of(PricesFaker.fakeValidRate1());
-        var response = PricesFaker.fakePriceTransaction();
-
-        when(pricesQuery.execute(any(ValidRate.class)))
-                .thenReturn(PricesFaker.fakePriceResponse());
-
-        Mockito.<ResponseRest<PricesResponse>>
-                when(msRequestProcessor.processRequest(any(), any()))
-                .thenReturn(response);
-
-        mvc.perform(get(URL_QUERY)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(request))
-                .characterEncoding(UTF_8)
-        )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(response)));
-    }
-
-    @Test
     @DisplayName("When correct request generate should return ok")
     void whenCorrectRequest_ThenReturnOk() throws Exception {
 
-        var request = ValidRateRequest.of(PricesFaker.fakeValidRate2());
+        var request = ValidRateRequest.of(PricesFaker.fakeValidRate1());
         var response = PricesFaker.fakePriceTransaction();
 
         when(pricesQuery.execute(any(ValidRate.class)))

@@ -1,7 +1,9 @@
 package com.between.test.adapter.jdbc;
 
 import com.between.test.adapter.controller.model.PricesResponse;
+import com.between.test.application.exception.JDBCGenericException;
 import com.between.test.application.port.out.PricesRepository;
+import com.between.test.config.ErrorCode;
 import com.between.test.domain.PriceQueryByDate;
 import com.between.test.domain.ValidRate;
 import lombok.extern.slf4j.Slf4j;
@@ -21,25 +23,24 @@ public class PricesAdapter implements PricesRepository {
 
     @Override
     public PriceQueryByDate getValidRate(ValidRate validRate) {
-        var dateTime = LocalDateTime.parse(validRate.getDateApplication());
-        return PriceQueryByDate.builder()
-                .id(1)
-                .dateEndApplication("hola")
-                .productId(34545)
-                .price(100.00)
-                .brand(1)
-                .build();
-        /*
-        var result = pricesJpaRepository.getValidRate(dateTime,validRate.getProductId(),validRate.getBrandId());
-        return PricesResponse.builder()
-                .id(result.getId())
-                .brandId(result.getBrand().getId())
-                .dateStartApplication(result.getStart_date().toString())
-                .dateEndApplication(result.getEnd_date().toString())
-                .price(result.getPrice())
-                .productId(result.getProduct_id())
-                .build().toDomain();
 
-         */
+        var dateTime = LocalDateTime.parse(validRate.getDateApplication());
+
+        var resultList = pricesJpaRepository.findValidRate(dateTime,validRate.getProductId(),validRate.getBrandId());
+
+        if(!resultList.isEmpty()){
+            var result = resultList.get(0);
+            return PricesResponse.builder()
+                    .id(result.getId())
+                    .brandId(result.getBrand().getId())
+                    .dateStartApplication(result.getStartDate().toString())
+                    .dateEndApplication(result.getEndDate().toString())
+                    .price(result.getPriceRate())
+                    .productId(result.getProductId())
+                    .build().toDomain();
+        } else {
+            log.error("Error inesperado");
+            throw new JDBCGenericException(ErrorCode.DATABASE_INTERNAL_ERROR);
+        }
     }
 }
