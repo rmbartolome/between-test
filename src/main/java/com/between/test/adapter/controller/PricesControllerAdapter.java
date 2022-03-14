@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class PricesControllerAdapter {
     @GetMapping("/prices")
     public ResponseRest<PricesResponse> getValidRate(
             HttpServletRequest request,
-            @RequestBody ValidRateRequest validRateRequest){
+            @Valid @RequestBody ValidRateRequest validRateRequest){
         log.info("Se invoca al servicio de consulta de tarifa de precio por producto y cadena a la fecha aplicable");
 
         var respond = pricesQuery.execute(validRateRequest.toDomain());

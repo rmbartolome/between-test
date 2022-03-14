@@ -5,8 +5,7 @@ public enum ErrorCode {
     INTERNAL_ERROR(100, "Error interno del servidor"),
     DATABASE_INTERNAL_ERROR(101, "Timeout de cliente rest"),
     REST_CLIENT_EMPTY(102, "El cliente rest no devolvio nada"),
-    BAD_REQUEST(103, "Bad request"),
-    WEB_CLIENT_GENERIC(105, "Error del Web Client");
+    BAD_REQUEST(103, "Bad request");
 
     private final int value;
     private final String reasonPhrase;
